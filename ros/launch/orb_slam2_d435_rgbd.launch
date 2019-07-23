@@ -4,16 +4,17 @@
           $(find orb_slam2_ros)/orb_slam2/Vocabulary/ORBvoc.txt
           $(find orb_slam2_ros)/orb_slam2/config/RealSenseD435RGBD.yaml"
       output="screen">
-       <remap from="/camera/rgb/image_raw" to="/camera/color/image_raw" />
-       <remap from="/camera/depth_registered/image_raw" to="/camera/depth/image_rect_raw" />
+       <remap from="/camera/rgb/image_raw" to="/camera_middle/color/image_raw" />
+       <remap from="/camera/depth_registered/image_raw" to="/camera_middle/depth/image_rect_raw" />
 
        <param name="publish_pointcloud" type="bool" value="true" />
        <param name="publish_pose" type="bool" value="true" />
        <param name="localize_only" type="bool" value="false" />
        <param name="reset_map" type="bool" value="false" />
-       <param name="pointcloud_frame_id" type="string" value="init_boat" />
-       <param name="camera_frame_id" type="string" value="camera_link" />
+       <param name="pointcloud_frame_id" type="string" value="/slam_map" />
+       <param name="camera_frame_id" type="string" value="camera_middle_link" />
        <param name="min_num_kf_in_map" type="int" value="5" />
   </node>
   <node name="pose_odom_bridge" pkg="orb_slam2_ros" type="pose_odom_bridge.py"/>
+  <node name="tf_static" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 1 base_link camera_middle_link 100" />
 </launch>
